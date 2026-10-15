@@ -1,0 +1,6 @@
+{
+  "name": "Base de Datos de Educación No Formal",
+  "description": "Una base de datos interactiva de centros de educación no formal en Buenos Aires con filtros avanzados de especialidad, modalidad y contacto por WhatsApp, expandible con IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script id="patch-fetch-setter">
+      (function() {
+        try {
+          let currentFetch = window.fetch;
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get() { return currentFetch; },
+            set(v) { currentFetch = v; }
+          });
+        } catch (e) {
+          console.warn("Could not redefine web view fetch property descriptor:", e);
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>EduNoFormal Argentina - Buscador de Cursos, Oficios y WhatsApp Directo</title>
+    <meta name="description" content="Padrón nacional con más de 3.200 centros de educación no formal, academias de estética, oficios técnicos, danza y gastronomía en Argentina con contacto directo por WhatsApp." />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="EduNoFormal" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      /* Ensure clean Leaflet default sizes and smooth rendering */
+      .leaflet-container {
+        font-family: 'Inter', sans-serif !important;
+      }
+      .leaflet-popup-content-value {
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased duration-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

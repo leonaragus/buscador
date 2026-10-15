@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  
+  <!-- Base Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+  
+  <!-- Inner circular badge -->
+  <circle cx="256" cy="256" r="200" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.1" stroke-width="4"/>
+  
+  <!-- Graduation Cap & Certificate / Tools Motif -->
+  <g filter="url(#shadow)" transform="translate(0, -10)">
+    <!-- Cap Diamond -->
+    <polygon points="256,120 410,195 256,270 102,195" fill="url(#goldGrad)" stroke="#d97706" stroke-width="4"/>
+    
+    <!-- Skull cap beneath -->
+    <path d="M160,225 L160,285 C160,335 352,335 352,285 L352,225 Z" fill="#f8fafc" fill-opacity="0.95"/>
+    
+    <!-- Tassel string & dangling ball -->
+    <path d="M256,195 Q380,210 395,290" fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="395" cy="295" r="14" fill="#fbbf24"/>
+    
+    <!-- Center gear / compass / sun accent -->
+    <circle cx="256" cy="285" r="32" fill="#0284c7" stroke="#ffffff" stroke-width="4"/>
+    <!-- Gear teeth or Argentine star lines -->
+    <line x1="256" y1="245" x2="256" y2="252" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    <line x1="256" y1="318" x2="256" y2="325" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    <line x1="216" y1="285" x2="223" y2="285" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    <line x1="289" y1="285" x2="296" y2="285" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Bottom text or emblem -->
+  <text x="256" y="415" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="34" letter-spacing="4" fill="#38bdf8">EDU NO FORMAL</text>
+  <text x="256" y="450" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="20" letter-spacing="6" fill="#94a3b8">ARGENTINA</text>
+</svg>
