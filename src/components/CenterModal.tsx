@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { X, Send, Award, HelpCircle, MapPin, CheckSquare, Plus, Trash, CheckCircle2 } from "lucide-react";
+import { X, Send, Award, HelpCircle, MapPin, CheckSquare, Plus, Trash, CheckCircle2, Copy, Check, MessageSquare } from "lucide-react";
 import { Center } from "../data/initialCenters";
 import { PROVINCES } from "../data/provinces";
+import { buildRaicepWhatsAppUrl, RAICEP_WHATSAPP_MESSAGE } from "../utils/whatsappMessage";
 
 interface CenterModalProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ export default function CenterModal({ isOpen, onClose, mode, center, onAddManual
   
   const [courseInput, setCourseInput] = useState("");
   const [courses, setCourses] = useState<string[]>([]);
+  const [copiedMessage, setCopiedMessage] = useState(false);
 
   // Sync defaults whenever modal is opened
   useEffect(() => {
@@ -238,24 +240,61 @@ export default function CenterModal({ isOpen, onClose, mode, center, onAddManual
                 </div>
               </div>
 
-              {/* Contact card */}
-              <div className="pt-2">
+              {/* Contact card & RAICEP Message */}
+              <div className="pt-2 space-y-3">
                 {(() => {
-                  const cleanPhone = center.whatsapp.replace('+', '').replace(/\s+/g, '');
-                  const message = encodeURIComponent(`Hola, vi su centro "${center.name}" en EduNoFormal Argentina y quería consultar sobre días, horarios y costos de inscripción para sus cursos (${center.courses.slice(0, 3).join(", ")}). ¡Muchas gracias!`);
-                  const waUrl = `https://wa.me/${cleanPhone}?text=${message}`;
+                  const waUrl = buildRaicepWhatsAppUrl(center.whatsapp);
+                  
+                  const handleCopy = () => {
+                    navigator.clipboard.writeText(RAICEP_WHATSAPP_MESSAGE);
+                    setCopiedMessage(true);
+                    setTimeout(() => setCopiedMessage(false), 2500);
+                  };
+
                   return (
-                    <a
-                      href={waUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full bg-[#25D366] hover:bg-[#20ba56] text-white shadow-md hover:shadow-lg transition-all rounded-xl py-3 px-4 font-bold text-xs flex items-center justify-center space-x-2"
-                    >
-                      <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
-                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.253 8.477 3.521 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm12.022-2.13c1.802 0 3.568-.484 5.114-1.4l.366-.218 3.805.998-.383-3.692.239-.383c.995-1.586 1.52-3.424 1.516-5.31C22.75 6.13 17.925 1.305 12 1.305c-5.922 0-10.74 4.814-10.745 10.739-.001 1.884.49 3.731 1.422 5.33l.255.438-.973 3.551 3.636-.954.385.228c1.498.887 3.204 1.354 4.956 1.355zm5.786-7.915c-.318-.159-1.88-.928-2.17-.1.033-.29-.12-.435-.435-.595-.157-.079-.766-.316-1.465-.939-.543-.484-.91-1.082-.102-1.241-.11-.159-.24-.319-.36-.48-.684-.913-1.12-1.133-1.44-.813-.23.23-.46.33-.69.57-.23.23-.41.37-.69.59-.28.22-.57.44-.81.67-.32.32-.61.64-.81.93s-.36.56-.2.1.28-.56.9-.12.56.32 1.15.86c.64.59.88.94 1.17 1.3.28.37.28.69.14.99-.14.29-.63.92-.81 1.14-.15.22-.38.29-.63.14-.25-.15-1.07-.39-2.03-1.25-.75-.67-1.26-1.51-1.41-1.76-.14-.26-.01-.39.11-.51.12-.12.25-.29.38-.44.13-.15.17-.25.26-.43.09-.18.04-.34-.01-.45-.06-.11-.53-1.28-.73-1.76-.19-.48-.39-.41-.53-.41h-.45c-.15 0-.41.06-.63.29-.22.23-.85.83-.85 2.03 0 1.2 1.25 2.45 1.33 2.53.08.08 1.48 2.26 3.59 3.17.51.22.9.36 1.21.46.52.16.99.14 1.37.08.41-.06 1.88-.77 2.14-1.51.25-.74.25-1.37.18-1.51-.08-.14-.29-.22-.61-.38z"/>
-                      </svg>
-                      <span>Abrir Chat de WhatsApp ({center.whatsapp})</span>
-                    </a>
+                    <div className="space-y-2.5">
+                      <a
+                        href={waUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-[#25D366] hover:bg-[#20ba56] text-white shadow-md hover:shadow-lg transition-all rounded-xl py-3 px-4 font-bold text-xs flex items-center justify-center space-x-2"
+                      >
+                        <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.253 8.477 3.521 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm12.022-2.13c1.802 0 3.568-.484 5.114-1.4l.366-.218 3.805.998-.383-3.692.239-.383c.995-1.586 1.52-3.424 1.516-5.31C22.75 6.13 17.925 1.305 12 1.305c-5.922 0-10.74 4.814-10.745 10.739-.001 1.884.49 3.731 1.422 5.33l.255.438-.973 3.551 3.636-.954.385.228c1.498.887 3.204 1.354 4.956 1.355zm5.786-7.915c-.318-.159-1.88-.928-2.17-.1.033-.29-.12-.435-.435-.595-.157-.079-.766-.316-1.465-.939-.543-.484-.91-1.082-.102-1.241-.11-.159-.24-.319-.36-.48-.684-.913-1.12-1.133-1.44-.813-.23.23-.46.33-.69.57-.23.23-.41.37-.69.59-.28.22-.57.44-.81.67-.32.32-.61.64-.81.93s-.36.56-.2.1.28-.56.9-.12.56.32 1.15.86c.64.59.88.94 1.17 1.3.28.37.28.69.14.99-.14.29-.63.92-.81 1.14-.15.22-.38.29-.63.14-.25-.15-1.07-.39-2.03-1.25-.75-.67-1.26-1.51-1.41-1.76-.14-.26-.01-.39.11-.51.12-.12.25-.29.38-.44.13-.15.17-.25.26-.43.09-.18.04-.34-.01-.45-.06-.11-.53-1.28-.73-1.76-.19-.48-.39-.41-.53-.41h-.45c-.15 0-.41.06-.63.29-.22.23-.85.83-.85 2.03 0 1.2 1.25 2.45 1.33 2.53.08.08 1.48 2.26 3.59 3.17.51.22.9.36 1.21.46.52.16.99.14 1.37.08.41-.06 1.88-.77 2.14-1.51.25-.74.25-1.37.18-1.51-.08-.14-.29-.22-.61-.38z"/>
+                        </svg>
+                        <span>Abrir Chat con Mensaje RAICEP ({center.whatsapp})</span>
+                      </a>
+
+                      {/* Message preview and copy action */}
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-[11px] space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-slate-700 flex items-center gap-1.5">
+                            <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+                            Mensaje Oficial RAICEP (Formato WhatsApp)
+                          </span>
+                          <button
+                            type="button"
+                            onClick={handleCopy}
+                            className="inline-flex items-center gap-1 px-2 py-1 bg-white border border-slate-250 hover:bg-slate-100 rounded text-slate-700 font-semibold cursor-pointer transition-colors shadow-2xs"
+                          >
+                            {copiedMessage ? (
+                              <>
+                                <Check className="w-3 h-3 text-emerald-600" />
+                                <span className="text-emerald-700">¡Copiado!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3 text-slate-500" />
+                                <span>Copiar</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                        <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-slate-600 font-mono text-[10.5px] whitespace-pre-wrap max-h-40 overflow-y-auto leading-relaxed select-all">
+                          {RAICEP_WHATSAPP_MESSAGE}
+                        </div>
+                      </div>
+                    </div>
                   );
                 })()}
               </div>

@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Center } from "../data/initialCenters";
 import { PROVINCES } from "../data/provinces";
+import { buildRaicepWhatsAppUrl } from "../utils/whatsappMessage";
 
 interface ExtractedData {
   elegible: boolean;
@@ -398,15 +399,15 @@ WhatsApp: 11-4455-6677..."
                     </div>
 
                     <div className="flex items-center gap-2 pt-1">
-                      {parsedData.link_whatsapp_directo && (
+                      {(parsedData.link_whatsapp_directo || parsedData.telefono_principal) && (
                         <a
-                          href={parsedData.link_whatsapp_directo}
+                          href={buildRaicepWhatsAppUrl(parsedData.link_whatsapp_directo || parsedData.telefono_principal || '')}
                           target="_blank"
                           rel="noreferrer"
                           className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-1.5 px-3 rounded flex items-center gap-1.5 transition-colors"
                         >
                           <Phone className="w-3.5 h-3.5" />
-                          <span>Abrir WhatsApp</span>
+                          <span>Abrir WhatsApp RAICEP</span>
                           <ExternalLink className="w-3 h-3 opacity-70" />
                         </a>
                       )}

@@ -16,7 +16,8 @@ import {
   ArrowRight,
   Loader2,
   Info,
-  Bot
+  Bot,
+  MessageSquare
 } from "lucide-react";
 
 import { Center, initialCenters } from "./data/initialCenters";
@@ -28,6 +29,7 @@ import CenterMap from "./components/CenterMap";
 import AiSeeder from "./components/AiSeeder";
 import CenterModal from "./components/CenterModal";
 import RawExtractorModal from "./components/RawExtractorModal";
+import { RaicepMessageModal } from "./components/RaicepMessageModal";
 import { PWAInstallButton } from "./components/PWAInstallButton";
 import { OfflineIndicator } from "./components/OfflineIndicator";
 import { matchesCenterSearch } from "./utils/searchHelper";
@@ -122,6 +124,7 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'view' | 'add' | 'help'>('view');
   const [isRawScraperOpen, setIsRawScraperOpen] = useState(false);
+  const [isRaicepMsgModalOpen, setIsRaicepMsgModalOpen] = useState(false);
   const [notification, setNotification] = useState<string | null>(null);
 
   // Extract active province details
@@ -406,6 +409,16 @@ export default function App() {
 
             {/* PWA Direct Mobile App Installation button */}
             <PWAInstallButton />
+
+            {/* RAICEP Message template preview & copy modal launcher */}
+            <button
+              onClick={() => setIsRaicepMsgModalOpen(true)}
+              className="text-[11px] text-emerald-800 hover:text-emerald-950 font-bold cursor-pointer flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-2.5 py-1 rounded transition-colors shadow-2xs"
+              title="Ver o copiar el mensaje oficial RAICEP preconfigurado con negritas para WhatsApp"
+            >
+              <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Mensaje RAICEP</span>
+            </button>
 
             {/* AI Raw Scraper & Semantic Agent Launcher Button */}
             <button
@@ -829,6 +842,12 @@ export default function App() {
 
       {/* Offline Status Toast for PWA */}
       <OfflineIndicator />
+
+      {/* RAICEP WhatsApp Message Template Modal */}
+      <RaicepMessageModal
+        isOpen={isRaicepMsgModalOpen}
+        onClose={() => setIsRaicepMsgModalOpen(false)}
+      />
 
     </div>
   );

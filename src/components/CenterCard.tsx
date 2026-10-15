@@ -1,6 +1,7 @@
 import React from "react";
 import { MapPin, School, ChevronDown, ChevronUp, CheckCircle2 } from "lucide-react";
 import { Center } from "../data/initialCenters";
+import { buildRaicepWhatsAppUrl } from "../utils/whatsappMessage";
 
 interface CenterCardProps {
   center: Center;
@@ -24,9 +25,8 @@ const SPECIALTY_COLORS: Record<string, { bg: string; text: string; border: strin
 export default function CenterCard({ center, isSelected, onSelect, isExpanded, onToggleExpand, onToggleContacted }: CenterCardProps) {
   const colors = SPECIALTY_COLORS[center.specialty] || { bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-100' };
 
-  // Generate premade whatsapp link
-  const message = encodeURIComponent(`Hola, vi su de centro no formal "${center.name}" registrado en la Base de Datos Educativa y me gustaría consultar sobre las fechas de inscripción y costos para sus cursos activos de (ej: ${center.courses.slice(0, 2).join(", ")}). ¡Muchas gracias!`);
-  const whatsappUrl = `https://wa.me/${center.whatsapp.replace('+', '').replace(/\s+/g, '')}?text=${message}`;
+  // Generate premade RAICEP whatsapp link with bold formatted message
+  const whatsappUrl = buildRaicepWhatsAppUrl(center.whatsapp);
 
   // Badges following the "High Density" spec
   const getModalityBadge = (mod: string) => {
